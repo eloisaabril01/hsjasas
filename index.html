@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargo Express Logistics - Global Freight Solutions</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#f59e0b',
+                        accent: '#0ea5e9',
+                        dark: '#1f2937'
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+
+    <!-- Preload critical assets for faster loading -->
+    <link rel="preload" href="styles/main.css" as="style">
+    <link rel="preload" href="styles/loader.css" as="style">
+    <link rel="preload" href="logo/cargo-express-logo.png" as="image">
+    <link rel="preload" href="scripts/loader.js" as="script">
+    <link rel="preload" href="scripts/main.js" as="script">
+
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/loader.css">
+</head>
+<body class="font-body">
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <img src="logo/cargo-express-logo.png" alt="Cargo Express Logo" class="h-12 w-auto">
+                </a>
+
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link text-white hover:text-secondary transition-colors active">Home</a>
+                    <a href="services.html" class="nav-link text-white hover:text-secondary transition-colors">Services</a>
+                    <a href="about.html" class="nav-link text-white hover:text-secondary transition-colors">About</a>
+                    <a href="contact.html" class="nav-link text-white hover:text-secondary transition-colors">Contact</a>
+                    <a href="quote.html" class="bg-secondary hover:bg-yellow-500 text-white px-6 py-2 rounded-lg font-medium transition-colors">Get Quote</a>
+                </nav>
+
+                <button class="lg:hidden text-white" id="mobile-menu-btn">
+                    <i class="ri-menu-line text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="lg:hidden fixed top-0 left-0 w-full h-full bg-dark/95 backdrop-blur-sm transform -translate-x-full transition-transform duration-300">
+            <div class="flex flex-col h-full">
+                <div class="flex justify-between items-center p-6 border-b border-gray-700">
+                    <span class="text-xl font-heading font-bold text-white">Menu</span>
+                    <button id="mobile-menu-close" class="text-white">
+                        <i class="ri-close-line text-2xl"></i>
+                    </button>
+                </div>
+                <nav class="flex flex-col space-y-4 p-6">
+                    <a href="index.html" class="text-white hover:text-secondary transition-colors py-2">Home</a>
+                    <a href="services.html" class="text-white hover:text-secondary transition-colors py-2">Services</a>
+                    <a href="about.html" class="text-white hover:text-secondary transition-colors py-2">About</a>
+                    <a href="contact.html" class="text-white hover:text-secondary transition-colors py-2">Contact</a>
+                    <a href="quote.html" class="bg-secondary hover:bg-yellow-500 text-white px-6 py-3 rounded-lg font-medium transition-colors inline-block text-center mt-4">Get Quote</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                <source src="videos/hero background.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-r from-dark/80 to-dark/60"></div>
+        </div>
+
+        <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
+            <h1 class="text-5xl md:text-7xl font-heading font-bold text-white mb-6 leading-tight">
+                Cargo Express
+                <span class="text-secondary">Logistics</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed">
+                Connecting businesses worldwide with reliable, efficient, and innovative cargo transportation solutions across sea, air, and land.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="services.html" class="bg-primary hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:scale-105">
+                    Explore Services
+                </a>
+                <a href="quote.html" class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-dark px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300">
+                    Get Free Quote
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Overview -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-heading font-bold text-dark mb-6">Our Core Services</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Comprehensive logistics solutions tailored to your business needs</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                    <div class="h-64 overflow-hidden">
+                        <video autoplay muted loop playsinline class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                            <source src="videos/ships.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="p-8">
+                        <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                            <i class="ri-ship-line text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-heading font-semibold text-dark mb-4">Sea Freight</h3>
+                        <p class="text-gray-600 mb-6">Cost-effective ocean freight solutions with global port coverage and flexible container options.</p>
+                        <a href="services.html#sea-freight" class="text-primary hover:text-blue-700 font-semibold inline-flex items-center">
+                            Learn More <i class="ri-arrow-right-line ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                    <div class="h-64 overflow-hidden">
+                        <video autoplay muted loop playsinline class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                            <source src="videos/planes.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="p-8">
+                        <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                            <i class="ri-plane-line text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-heading font-semibold text-dark mb-4">Air Freight</h3>
+                        <p class="text-gray-600 mb-6">Fast and reliable air cargo services for time-sensitive shipments worldwide.</p>
+                        <a href="services.html#air-freight" class="text-primary hover:text-blue-700 font-semibold inline-flex items-center">
+                            Learn More <i class="ri-arrow-right-line ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                    <div class="h-64 overflow-hidden">
+                        <video autoplay muted loop playsinline class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                            <source src="videos/trucks.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="p-8">
+                        <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                            <i class="ri-truck-line text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-heading font-semibold text-dark mb-4">Road Transport</h3>
+                        <p class="text-gray-600 mb-6">Flexible ground transportation with door-to-door delivery across continents.</p>
+                        <a href="services.html#road-transport" class="text-primary hover:text-blue-700 font-semibold inline-flex items-center">
+                            Learn More <i class="ri-arrow-right-line ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-heading font-bold text-dark mb-6">Why Choose Cargo Express</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Industry-leading expertise with a commitment to excellence</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center group">
+                    <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors">
+                        <i class="ri-global-line text-primary text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold text-dark mb-4">Global Network</h3>
+                    <p class="text-gray-600">Extensive coverage across 150+ countries with local expertise</p>
+                </div>
+
+                <div class="text-center group">
+                    <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors">
+                        <i class="ri-shield-check-line text-primary text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold text-dark mb-4">99.8% Reliability</h3>
+                    <p class="text-gray-600">Industry-leading on-time delivery with real-time tracking</p>
+                </div>
+
+                <div class="text-center group">
+                    <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors">
+                        <i class="ri-customer-service-2-line text-primary text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold text-dark mb-4">24/7 Support</h3>
+                    <p class="text-gray-600">Dedicated customer service available around the clock</p>
+                </div>
+
+                <div class="text-center group">
+                    <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors">
+                        <i class="ri-leaf-line text-primary text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold text-dark mb-4">Eco-Friendly</h3>
+                    <p class="text-gray-600">Committed to sustainable logistics and carbon reduction</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 bg-primary">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2" data-count="20">20</div>
+                    <div class="text-blue-200 text-lg">Years Experience</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2" data-count="150">150+</div>
+                    <div class="text-blue-200 text-lg">Countries Served</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2" data-count="5000">5,000+</div>
+                    <div class="text-blue-200 text-lg">Happy Clients</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2" data-count="1000000">1M+</div>
+                    <div class="text-blue-200 text-lg">Shipments Annually</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-5xl font-heading font-bold text-dark mb-6">Ready to Ship with Confidence?</h2>
+            <p class="text-xl text-gray-600 mb-10 max-w-3xl mx-auto">Join thousands of businesses that trust us with their global logistics needs</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="quote.html" class="bg-primary hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:scale-105">
+                    Get Free Quote
+                </a>
+                <a href="contact.html" class="bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300">
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="mb-6">
+                        <img src="logo/cargo-express-logo.png" alt="Cargo Express Logo" class="h-16 w-auto">
+                    </div>
+                    <p class="text-gray-400 mb-6">Your trusted partner for global logistics solutions, connecting businesses worldwide.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-linkedin-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-twitter-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-heading font-semibold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="services.html" class="text-gray-400 hover:text-white transition-colors">Services</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-heading font-semibold mb-6">Services</h3>
+                    <ul class="space-y-3">
+                        <li><a href="services.html#sea-freight" class="text-gray-400 hover:text-white transition-colors">Sea Freight</a></li>
+                        <li><a href="services.html#air-freight" class="text-gray-400 hover:text-white transition-colors">Air Freight</a></li>
+                        <li><a href="services.html#road-transport" class="text-gray-400 hover:text-white transition-colors">Road Transport</a></li>
+                        <li><a href="services.html#warehousing" class="text-gray-400 hover:text-white transition-colors">Warehousing</a></li>
+                        <li><a href="services.html#customs" class="text-gray-400 hover:text-white transition-colors">Customs Clearance</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-heading font-semibold mb-6">Contact Info</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-map-pin-line text-primary mt-1"></i>
+                            <div class="text-gray-400">
+                                <p>301/A Rajkamal Plaza</p>
+                                <p>Ahmedabad, Gujarat 380014</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="ri-phone-line text-primary"></i>
+                            <span class="text-gray-400">+91 79 2658 7890</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="ri-mail-line text-primary"></i>
+                            <span class="text-gray-400">info@cargoexpress.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0">&copy; 2025 Cargo Express Logistics. All rights reserved.</p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/loader.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

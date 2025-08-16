@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Cargo Express Logistics</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#f59e0b',
+                        accent: '#0ea5e9',
+                        dark: '#1f2937'
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/loader.css">
+</head>
+<body class="font-body">
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 w-full z-50 bg-dark/95 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <img src="logo/cargo-express-logo.png" alt="Cargo Express Logo" class="h-12 w-auto">
+                </a>
+
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link text-white hover:text-secondary transition-colors">Home</a>
+                    <a href="services.html" class="nav-link text-white hover:text-secondary transition-colors active">Services</a>
+                    <a href="about.html" class="nav-link text-white hover:text-secondary transition-colors">About</a>
+                    <a href="contact.html" class="nav-link text-white hover:text-secondary transition-colors">Contact</a>
+                    <a href="quote.html" class="bg-secondary hover:bg-yellow-500 text-white px-6 py-2 rounded-lg font-medium transition-colors">Get Quote</a>
+                </nav>
+
+                <button class="lg:hidden text-white" id="mobile-menu-btn">
+                    <i class="ri-menu-line text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="lg:hidden fixed top-0 left-0 w-full h-full bg-dark/95 backdrop-blur-sm transform -translate-x-full transition-transform duration-300">
+            <div class="flex flex-col h-full">
+                <div class="flex justify-between items-center p-6 border-b border-gray-700">
+                    <span class="text-xl font-heading font-bold text-white">Menu</span>
+                    <button id="mobile-menu-close" class="text-white">
+                        <i class="ri-close-line text-2xl"></i>
+                    </button>
+                </div>
+                <nav class="flex flex-col space-y-4 p-6">
+                    <a href="index.html" class="text-white hover:text-secondary transition-colors py-2">Home</a>
+                    <a href="services.html" class="text-white hover:text-secondary transition-colors py-2">Services</a>
+                    <a href="about.html" class="text-white hover:text-secondary transition-colors py-2">About</a>
+                    <a href="contact.html" class="text-white hover:text-secondary transition-colors py-2">Contact</a>
+                    <a href="quote.html" class="bg-secondary hover:bg-yellow-500 text-white px-6 py-3 rounded-lg font-medium transition-colors inline-block text-center mt-4">Get Quote</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 bg-gradient-to-br from-primary to-blue-800">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-5xl md:text-6xl font-heading font-bold text-white mb-6">Our Services</h1>
+            <p class="text-xl text-blue-100 max-w-3xl mx-auto">Comprehensive logistics solutions designed to meet your unique transportation needs across the globe</p>
+        </div>
+    </section>
+
+    <!-- Sea Freight Section -->
+    <section id="sea-freight" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl">
+                        <video autoplay muted loop playsinline class="w-full h-96 object-cover">
+                            <source src="videos/ships.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="lg:w-1/2">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="ri-ship-line text-primary text-3xl"></i>
+                    </div>
+                    <h2 class="text-4xl font-heading font-bold text-dark mb-6">Sea Freight Solutions</h2>
+                    <p class="text-lg text-gray-600 mb-8">Cost-effective ocean freight services connecting major ports worldwide with flexible container options and competitive rates.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-check-line text-primary text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-dark mb-1">Full Container Load (FCL)</h4>
+                                <p class="text-gray-600 text-sm">Dedicated containers for large shipments</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-check-line text-primary text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-dark mb-1">Less Container Load (LCL)</h4>
+                                <p class="text-gray-600 text-sm">Shared containers for smaller shipments</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-check-line text-primary text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-dark mb-1">Break Bulk Cargo</h4>
+                                <p class="text-gray-600 text-sm">Oversized and heavy cargo handling</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-check-line text-primary text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-dark mb-1">Project Cargo</h4>
+                                <p class="text-gray-600 text-sm">Specialized handling for complex projects</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="quote.html" class="bg-primary hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center">
+                        Get Sea Freight Quote <i class="ri-arrow-right-line ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Air Freight Section -->
+    <section id="air-freight" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row-reverse items-center gap-12">
+                <div class="lg:w-1/2">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl">
+                        <video autoplay muted loop playsinline class="w-full h-96 object-cover">
+                            <source src="videos/planes.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="lg:w-1/2">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="ri-plane-line text-primary text-3xl"></i>
+                    </div>
+                    <h2 class="text-4xl font-heading font-bold text-dark mb-6">Air Freight Services</h2>
+                    <p class="text-lg text-gray-600 mb-8">Fast and reliable air cargo solutions for time-sensitive shipments with global coverage and expert handling.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-check-line text-primary text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-dark mb-1">Express Air Freight</h4>
+                                <p class="text-gray-600 text-sm">Priority handling for urgent shipments</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-check-line text-primary text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-dark mb-1">Consolidated Air Freight</h4>
+                                <p class="text-gray-600 text-sm">Cost-effective shared cargo space</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-check-line text-primary text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-dark mb-1">Charter Services</h4>
+                                <p class="text-gray-600 text-sm">Dedicated aircraft for special cargo</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-check-line text-primary text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-dark mb-1">Dangerous Goods</h4>
+                                <p class="text-gray-600 text-sm">Certified handling of hazardous materials</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="quote.html" class="bg-primary hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center">
+                        Get Air Freight Quote <i class="ri-arrow-right-line ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Road Transport Section -->
+    <section id="road-transport" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl">
+                        <video autoplay muted loop playsinline class="w-full h-96 object-cover">
+                            <source src="videos/trucks.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="lg:w-1/2">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="ri-truck-line text-primary text-3xl"></i>
+                    </div>
+                    <h2 class="text-4xl font-heading font-bold text-dark mb-6">Road Transportation</h2>
+                    <p class="text-lg text-gray-600 mb-8">Flexible ground transportation solutions with extensive network coverage and door-to-door delivery options.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-check-line text-primary text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-dark mb-1">Full Truckload (FTL)</h4>
+                                <p class="text-gray-600 text-sm">Dedicated trucks for large shipments</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-check-line text-primary text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-dark mb-1">Less Truckload (LTL)</h4>
+                                <p class="text-gray-600 text-sm">Shared truck space for smaller loads</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-check-line text-primary text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-dark mb-1">Expedited Delivery</h4>
+                                <p class="text-gray-600 text-sm">Rush delivery for urgent shipments</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-check-line text-primary text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-dark mb-1">Temperature Control</h4>
+                                <p class="text-gray-600 text-sm">Refrigerated transport for sensitive goods</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="quote.html" class="bg-primary hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center">
+                        Get Road Transport Quote <i class="ri-arrow-right-line ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Services -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-heading font-bold text-dark mb-6">Additional Services</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Comprehensive support services to complement your logistics needs</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div id="warehousing" class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="ri-building-line text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-heading font-semibold text-dark mb-4">Warehousing</h3>
+                    <p class="text-gray-600 mb-6">Secure storage facilities with inventory management and distribution services.</p>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-center"><i class="ri-check-line text-primary mr-2"></i>Climate-controlled storage</li>
+                        <li class="flex items-center"><i class="ri-check-line text-primary mr-2"></i>Inventory management</li>
+                        <li class="flex items-center"><i class="ri-check-line text-primary mr-2"></i>Pick and pack services</li>
+                    </ul>
+                </div>
+
+                <div id="customs" class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="ri-file-shield-line text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-heading font-semibold text-dark mb-4">Customs Clearance</h3>
+                    <p class="text-gray-600 mb-6">Expert customs brokerage services to ensure smooth border crossings.</p>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-center"><i class="ri-check-line text-primary mr-2"></i>Documentation assistance</li>
+                        <li class="flex items-center"><i class="ri-check-line text-primary mr-2"></i>Duty optimization</li>
+                        <li class="flex items-center"><i class="ri-check-line text-primary mr-2"></i>Compliance management</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="ri-shield-check-line text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-heading font-semibold text-dark mb-4">Cargo Insurance</h3>
+                    <p class="text-gray-600 mb-6">Comprehensive insurance coverage to protect your valuable shipments.</p>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-center"><i class="ri-check-line text-primary mr-2"></i>All-risk coverage</li>
+                        <li class="flex items-center"><i class="ri-check-line text-primary mr-2"></i>Marine insurance</li>
+                        <li class="flex items-center"><i class="ri-check-line text-primary mr-2"></i>Claims assistance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-primary">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-5xl font-heading font-bold text-white mb-6">Need a Custom Solution?</h2>
+            <p class="text-xl text-blue-100 mb-10 max-w-3xl mx-auto">Our logistics experts are ready to design a tailored solution for your unique requirements</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="quote.html" class="bg-white hover:bg-gray-100 text-primary px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:scale-105">
+                    Get Custom Quote
+                </a>
+                <a href="contact.html" class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300">
+                    Speak with Expert
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="ri-ship-line text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-heading font-bold">Cargo Express</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Your trusted partner for global logistics solutions, connecting businesses worldwide.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-linkedin-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-twitter-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-heading font-semibold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="services.html" class="text-gray-400 hover:text-white transition-colors">Services</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-heading font-semibold mb-6">Services</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#sea-freight" class="text-gray-400 hover:text-white transition-colors">Sea Freight</a></li>
+                        <li><a href="#air-freight" class="text-gray-400 hover:text-white transition-colors">Air Freight</a></li>
+                        <li><a href="#road-transport" class="text-gray-400 hover:text-white transition-colors">Road Transport</a></li>
+                        <li><a href="#warehousing" class="text-gray-400 hover:text-white transition-colors">Warehousing</a></li>
+                        <li><a href="#customs" class="text-gray-400 hover:text-white transition-colors">Customs Clearance</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-heading font-semibold mb-6">Contact Info</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-map-pin-line text-primary mt-1"></i>
+                            <div class="text-gray-400">
+                                <p>301/A Rajkamal Plaza</p>
+                                <p>Ahmedabad, Gujarat 380014</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="ri-phone-line text-primary"></i>
+                            <span class="text-gray-400">+91 79 2658 7890</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="ri-mail-line text-primary"></i>
+                            <span class="text-gray-400">info@cargoexpress.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0">&copy; 2025 Cargo Express Logistics. All rights reserved.</p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/loader.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

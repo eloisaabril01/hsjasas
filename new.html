@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Quote - Cargo Express Logistics</title>
+    <!-- Load Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#f59e0b',
+                        accent: '#0ea5e9',
+                        dark: '#1f2937'
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Load custom fonts from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Load Remixicon for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS for the loader and notification system */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .animate-fade-out {
+            animation: fadeOut 0.3s ease-in-out;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            -webkit-animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @-webkit-keyframes spin {
+            to {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        /* Styles for the notification system */
+        #notification-container {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .notification {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+            pointer-events: auto;
+        }
+
+        .notification.success {
+            border-left: 4px solid #10b981;
+        }
+
+        .notification.error {
+            border-left: 4px solid #ef4444;
+        }
+
+        .notification-icon {
+            margin-right: 0.75rem;
+            font-size: 1.5rem;
+        }
+
+        .notification.success .notification-icon {
+            color: #10b981;
+        }
+
+        .notification.error .notification-icon {
+            color: #ef4444;
+        }
+
+        .quote-confirmation-modal {
+            display: none;
+        }
+    </style>
+</head>
+<body class="font-body">
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 w-full z-50 bg-dark/95 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="flex items-center space-x-3">
+                    <img src="https://placehold.co/100x48/1e40af/ffffff?text=Cargo+Express" alt="Cargo Express Logo" class="h-12 w-auto">
+                </a>
+
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="#" class="nav-link text-white hover:text-secondary transition-colors">Home</a>
+                    <a href="#" class="nav-link text-white hover:text-secondary transition-colors">Services</a>
+                    <a href="#" class="nav-link text-white hover:text-secondary transition-colors">About</a>
+                    <a href="#" class="nav-link text-white hover:text-secondary transition-colors">Contact</a>
+                    <a href="#" class="bg-secondary hover:bg-yellow-500 text-white px-6 py-2 rounded-lg font-medium transition-colors active">Get Quote</a>
+                </nav>
+
+                <button class="lg:hidden text-white" id="mobile-menu-btn">
+                    <i class="ri-menu-line text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="lg:hidden fixed top-0 left-0 w-full h-full bg-dark/95 backdrop-blur-sm transform -translate-x-full transition-transform duration-300">
+            <div class="flex flex-col h-full">
+                <div class="flex justify-between items-center p-6 border-b border-gray-700">
+                    <span class="text-xl font-heading font-bold text-white">Menu</span>
+                    <button id="mobile-menu-close" class="text-white">
+                        <i class="ri-close-line text-2xl"></i>
+                    </button>
+                </div>
+                <nav class="flex flex-col space-y-4 p-6">
+                    <a href="#" class="text-white hover:text-secondary transition-colors py-2">Home</a>
+                    <a href="#" class="text-white hover:text-secondary transition-colors py-2">Services</a>
+                    <a href="#" class="text-white hover:text-secondary transition-colors py-2">About</a>
+                    <a href="#" class="text-white hover:text-secondary transition-colors py-2">Contact</a>
+                    <a href="#" class="bg-secondary hover:bg-yellow-500 text-white px-6 py-3 rounded-lg font-medium transition-colors inline-block text-center mt-4">Get Quote</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 bg-gradient-to-br from-primary to-blue-800">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-5xl md:text-6xl font-heading font-bold text-white mb-6">Get Your Quote</h1>
+            <p class="text-xl text-blue-100 max-w-3xl mx-auto">Receive a personalized quote for your logistics needs within 24 hours</p>
+        </div>
+    </section>
+
+    <!-- Quote Form -->
+    <section id="quote-section" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-gray-50 rounded-2xl shadow-lg p-8">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-heading font-bold text-dark mb-4">Request Your Free Quote</h2>
+                        <p class="text-gray-600">Fill out the form below and our logistics experts will provide you with a detailed quote</p>
+                    </div>
+                    <form id="quote-form" class="space-y-8">
+                        <!-- Service Type -->
+                        <div data-section="service-type">
+                            <h3 class="text-xl font-heading font-semibold text-dark mb-4">Service Type *</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-primary transition-colors">
+                                    <input type="radio" name="service-type" value="sea-freight" class="mr-3 text-primary">
+                                    <div class="flex items-center">
+                                        <i class="ri-ship-line text-primary text-xl mr-3"></i>
+                                        <span class="font-medium">Sea Freight</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-primary transition-colors">
+                                    <input type="radio" name="service-type" value="air-freight" class="mr-3 text-primary">
+                                    <div class="flex items-center">
+                                        <i class="ri-plane-line text-primary text-xl mr-3"></i>
+                                        <span class="font-medium">Air Freight</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-primary transition-colors">
+                                    <input type="radio" name="service-type" value="road-transport" class="mr-3 text-primary">
+                                    <div class="flex items-center">
+                                        <i class="ri-truck-line text-primary text-xl mr-3"></i>
+                                        <span class="font-medium">Road Transport</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div data-section="contact-info">
+                            <h3 class="text-xl font-heading font-semibold text-dark mb-4">Contact Information</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="contact-name" class="block text-gray-700 font-medium mb-2">Full Name *</label>
+                                    <input type="text" id="contact-name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="Your full name" required>
+                                </div>
+                                <div>
+                                    <label for="contact-email" class="block text-gray-700 font-medium mb-2">Email Address *</label>
+                                    <input type="email" id="contact-email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="your@email.com" required>
+                                </div>
+                                <div>
+                                    <label for="contact-phone" class="block text-gray-700 font-medium mb-2">Phone Number</label>
+                                    <input type="tel" id="contact-phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="+1 (555) 123-4567">
+                                </div>
+                                <div>
+                                    <label for="contact-company" class="block text-gray-700 font-medium mb-2">Company Name</label>
+                                    <input type="text" id="contact-company" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="Your company">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shipment Details -->
+                        <div data-section="shipment-details">
+                            <h3 class="text-xl font-heading font-semibold text-dark mb-4">Shipment Details</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="origin" class="block text-gray-700 font-medium mb-2">Origin (From) *</label>
+                                    <select id="origin" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" required>
+                                        <option value="">Select origin port</option>
+                                        <option value="Guangzhou Baiyun International Airport">Guangzhou Baiyun International Airport</option>
+                                        <option value="Mundra / Icd - Khodiyar">Mundra / Icd - Khodiyar</option>
+                                        <option value="NHAVA SHEVA/ HAZIRA">NHAVA SHEVA/ HAZIRA</option>
+                                        <option value="AHMEDABAD AIRPORT">AHMEDABAD AIRPORT</option>
+                                        <option value="AHMEDABAD ICD">AHMEDABAD ICD</option>
+                                        <option value="Alexandria">Alexandria</option>
+                                        <option value="ALGECIRAS">ALGECIRAS</option>
+                                        <option value="Apapa lagos port">Apapa lagos port</option>
+                                        <option value="BANGKOK">BANGKOK</option>
+                                        <option value="BARCELONA, SPAIN, ES">BARCELONA, SPAIN, ES</option>
+                                        <option value="BEIJING AIRPORT">BEIJING AIRPORT</option>
+                                        <option value="BELAWAN">BELAWAN</option>
+                                        <option value="BHARUCH">BHARUCH</option>
+                                        <option value="CALLAO">CALLAO</option>
+                                        <option value="CAT LAI">CAT LAI</option>
+                                        <option value="CHENNAI">CHENNAI</option>
+                                        <option value="CHICAGO, USA">CHICAGO, USA</option>
+                                        <option value="CHINA">CHINA</option>
+                                        <option value="cincinnati, OH">Cincinnati, OH</option>
+                                        <option value="COCHIN PORT">COCHIN PORT</option>
+                                        <option value="COLOMBO">COLOMBO</option>
+                                        <option value="Dalian">Dalian</option>
+                                        <option value="Exwork Bangladesh Dhaka">Exwork Bangladesh Dhaka</option>
+                                        <option value="felixstowe port">Felixstowe Port</option>
+                                        <option value="FOSHAN">FOSHAN</option>
+                                        <option value="FRANCE">FRANCE</option>
+                                        <option value="Frankfurt Airport">Frankfurt Airport</option>
+                                        <option value="Genoa">Genoa</option>
+                                        <option value="Gurgaon">Gurgaon</option>
+                                        <option value="HAIPHONG">HAIPHONG</option>
+                                        <option value="HAMBURG">HAMBURG</option>
+                                        <option value="HARARE">HARARE</option>
+                                        <option value="HAZIRA">HAZIRA</option>
+                                        <option value="Houston port">Houston Port</option>
+                                        <option value="ICD Ahmedabad">ICD Ahmedabad</option>
+                                        <option value="Indonesia">Indonesia</option>
+                                        <option value="ISTANBUL">ISTANBUL</option>
+                                        <option value="Izmir">Izmir</option>
+                                        <option value="JAPAN">JAPAN</option>
+                                        <option value="JEBEL ALI">JEBEL ALI</option>
+                                        <option value="JNPT">JNPT</option>
+                                        <option value="KANDLA">KANDLA</option>
+                                        <option value="kandla/mundra">Kandla/Mundra</option>
+                                        <option value="Khodiyar ICD">Khodiyar ICD</option>
+                                        <option value="KOLKATA">KOLKATA</option>
+                                        <option value="LA GUAIRA">LA GUAIRA</option>
+                                        <option value="Laem Chabang, Thailand">Laem Chabang, Thailand</option>
+                                        <option value="Lagos">Lagos</option>
+                                        <option value="LEIXOES PORT">LEIXOES PORT</option>
+                                        <option value="MIAMI">MIAMI</option>
+                                        <option value="MUMBAI AIRPORT">MUMBAI AIRPORT</option>
+                                        <option value="MUNDRA">MUNDRA</option>
+                                        <option value="Mundra / Hazira / Nhava Sheva">Mundra / Hazira / Nhava Sheva</option>
+                                        <option value="MUNDRA / PIPAVAV">MUNDRA / PIPAVAV</option>
+                                        <option value="Mundra/kandla">Mundra/Kandla</option>
+                                        <option value="NANSHA PORT CHINA">NANSHA PORT CHINA</option>
+                                        <option value="Nansha/ Shekou">Nansha/ Shekou</option>
+                                        <option value="NEW YORK">NEW YORK</option>
+                                        <option value="NHAVA SHEVA">NHAVA SHEVA</option>
+                                        <option value="NHAVA SHEVA  / HAZIRA">NHAVA SHEVA / HAZIRA</option>
+                                        <option value="Nhava Sheva/ Hazira">Nhava Sheva/ Hazira</option>
+                                        <option value="Ningbo">Ningbo</option>
+                                        <option value="Ningbo  / Nansha">Ningbo / Nansha</option>
+                                        <option value="Ningbo / Nansha / Shekou">Ningbo / Nansha / Shekou</option>
+                                        <option value="NINGBO / Zhongshan">NINGBO / Zhongshan</option>
+                                        <option value="Ningbo/Shekou">Ningbo/Shekou</option>
+                                        <option value="NORFOLK">NORFOLK</option>
+                                        <option value="Panki Kanpur">Panki Kanpur</option>
+                                        <option value="PIPAVAV">PIPAVAV</option>
+                                        <option value="POL">POL</option>
+                                        <option value="POLL">POLL</option>
+                                        <option value="Port Klang, Malaysia">Port Klang, Malaysia</option>
+                                        <option value="Port of Dalian">Port of Dalian</option>
+                                        <option value="Port of Oakland">Port of Oakland</option>
+                                        <option value="Port of Portland (Oregon)">Port of Portland (Oregon)</option>
+                                        <option value="Puerto Rico">Puerto Rico</option>
+                                        <option value="QINGDAO">QINGDAO</option>
+                                        <option value="rotterdam">Rotterdam</option>
+                                        <option value="RUSSIA">RUSSIA</option>
+                                        <option value="SABAH PORT">SABAH PORT</option>
+                                        <option value="SANTOS">SANTOS</option>
+                                        <option value="SHANGAI">SHANGHAI</option>
+                                        <option value="SHANGHAI">SHANGHAI</option>
+                                        <option value="SHARJAH">SHARJAH</option>
+                                        <option value="SHENZAN PORT- CHINA PORT">SHENZHEN PORT- CHINA PORT</option>
+                                        <option value="SHENZAN/NINGO/SHEKAO">SHENZHEN/NINGBO/SHEKOU</option>
+                                        <option value="SHKOU">SHEKOU</option>
+                                        <option value="SONGKHLA PORT, THAILAND">SONGKHLA PORT, THAILAND</option>
+                                        <option value="SONIPAT">SONIPAT</option>
+                                        <option value="Surabaya">Surabaya</option>
+                                        <option value="Sydny- Melbourne-Brisbane">Sydney- Melbourne-Brisbane</option>
+                                        <option value="TAMPA">TAMPA</option>
+                                        <option value="Tema">Tema</option>
+                                        <option value="TIANJIN">TIANJIN</option>
+                                        <option value="TORONTO">TORONTO</option>
+                                        <option value="tunis, tunisia">Tunis, Tunisia</option>
+                                        <option value="Tuticorin">Tuticorin</option>
+                                        <option value="XIAMEN">XIAMEN</option>
+                                        <option value="XINGANG PORT , CHINA">XINGANG PORT, CHINA</option>
+                                        <option value="YADEN- YEMEN">ADEN- YEMEN</option>
+                                        <option value="Yantian">Yantian</option>
+                                        <option value="Other">Other (Please specify in comments)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="destination" class="block text-gray-700 font-medium mb-2">Destination (To) *</label>
+                                    <select id="destination" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" required>
+                                        <option value="">Select destination port</option>
+                                        <option value="ABIDJAN">ABIDJAN</option>
+                                        <option value="ABU DHABI">ABU DHABI</option>
+                                        <option value="AL SOKHNA">AL SOKHNA</option>
+                                        <option value="ACCRA">ACCRA</option>
+                                        <option value="ADDIS">ADDIS</option>
+                                        <option value="ADEN">ADEN</option>
+                                        <option value="AHMEDABAD">AHMEDABAD</option>
+                                        <option value="AHMEDABAD AIRPORT">AHMEDABAD AIRPORT</option>
+                                        <option value="ALEXANDRIA">ALEXANDRIA</option>
+                                        <option value="ALGECIRAS">ALGECIRAS</option>
+                                        <option value="ALGIERS">ALGIERS</option>
+                                        <option value="AMBARLI">AMBARLI</option>
+                                        <option value="AMSTERDAM">AMSTERDAM</option>
+                                        <option value="ANTWERP">ANTWERP</option>
+                                        <option value="APAPA">APAPA</option>
+                                        <option value="AQABA">AQABA</option>
+                                        <option value="ASHDOD">ASHDOD</option>
+                                        <option value="BANGKOK">BANGKOK</option>
+                                        <option value="BARCELONA">BARCELONA</option>
+                                        <option value="BEIRUT">BEIRUT</option>
+                                        <option value="BUSAN">BUSAN</option>
+                                        <option value="CAPE TOWN">CAPE TOWN</option>
+                                        <option value="CARTAGENA">CARTAGENA</option>
+                                        <option value="CASABLANCA">CASABLANCA</option>
+                                        <option value="CEBU">CEBU</option>
+                                        <option value="CHENNAI">CHENNAI</option>
+                                        <option value="CHITTAGONG">CHITTAGONG</option>
+                                        <option value="COLOMBO">COLOMBO</option>
+                                        <option value="COTONOU">COTONOU</option>
+                                        <option value="DAKAR">DAKAR</option>
+                                        <option value="DAMMAM">DAMMAM</option>
+                                        <option value="DAR ES SALAAM">DAR ES SALAAM</option>
+                                        <option value="DJIBOUTI">DJIBOUTI</option>
+                                        <option value="DOHA">DOHA</option>
+                                        <option value="DOUALA">DOUALA</option>
+                                        <option value="DUBAI">DUBAI</option>
+                                        <option value="DURBAN">DURBAN</option>
+                                        <option value="FELIXSTOWE">FELIXSTOWE</option>
+                                        <option value="FREETOWN">FREETOWN</option>
+                                        <option value="GENOA">GENOA</option>
+                                        <option value="GUANGZHOU">GUANGZHOU</option>
+                                        <option value="HAMBURG">HAMBURG</option>
+                                        <option value="HAIFA">HAIFA</option>
+                                        <option value="HAZIRA">HAZIRA</option>
+                                        <option value="HONG KONG">HONG KONG</option>
+                                        <option value="HOUSTON">HOUSTON</option>
+                                        <option value="INCHEON">INCHEON</option>
+                                        <option value="ISTANBUL">ISTANBUL</option>
+                                        <option value="IZMIR">IZMIR</option>
+                                        <option value="JAKARTA">JAKARTA</option>
+                                        <option value="JEBEL ALI">JEBEL ALI</option>
+                                        <option value="JEDDAH">JEDDAH</option>
+                                        <option value="KAOHSIUNG">KAOHSIUNG</option>
+                                        <option value="KARACHI">KARACHI</option>
+                                        <option value="KOBE">KOBE</option>
+                                        <option value="KOPER">KOPER</option>
+                                        <option value="KUWAIT">KUWAIT</option>
+                                        <option value="LAEM CHABANG">LAEM CHABANG</option>
+                                        <option value="LAGOS">LAGOS</option>
+                                        <option value="LE HAVRE">LE HAVRE</option>
+                                        <option value="LOME">LOME</option>
+                                        <option value="LONDON GATEWAY">LONDON GATEWAY</option>
+                                        <option value="LONG BEACH">LONG BEACH</option>
+                                        <option value="LOS ANGELES">LOS ANGELES</option>
+                                        <option value="LUANDA">LUANDA</option>
+                                        <option value="MANILA">MANILA</option>
+                                        <option value="MAPUTO">MAPUTO</option>
+                                        <option value="MELBOURNE">MELBOURNE</option>
+                                        <option value="MERSIN">MERSIN</option>
+                                        <option value="MIAMI">MIAMI</option>
+                                        <option value="MOMBASA">MOMBASA</option>
+                                        <option value="MUNDRA">MUNDRA</option>
+                                        <option value="MUSCAT">MUSCAT</option>
+                                        <option value="NAIROBI">NAIROBI</option>
+                                        <option value="NAGOYA">NAGOYA</option>
+                                        <option value="NEW YORK">NEW YORK</option>
+                                        <option value="NHAVA SHEVA">NHAVA SHEVA</option>
+                                        <option value="NINGBO">NINGBO</option>
+                                        <option value="OSAKA">OSAKA</option>
+                                        <option value="PENANG">PENANG</option>
+                                        <option value="PIRAEUS">PIRAEUS</option>
+                                        <option value="PORT KLANG">PORT KLANG</option>
+                                        <option value="PORT SAID">PORT SAID</option>
+                                        <option value="QINGDAO">QINGDAO</option>
+                                        <option value="ROTTERDAM">ROTTERDAM</option>
+                                        <option value="SALALAH">SALALAH</option>
+                                        <option value="SANTOS">SANTOS</option>
+                                        <option value="SAVANNAH">SAVANNAH</option>
+                                        <option value="SHANGHAI">SHANGHAI</option>
+                                        <option value="SHARJAH">SHARJAH</option>
+                                        <option value="SINGAPORE">SINGAPORE</option>
+                                        <option value="SOHAR">SOHAR</option>
+                                        <option value="SURABAYA">SURABAYA</option>
+                                        <option value="SYDNEY">SYDNEY</option>
+                                        <option value="TANGIER">TANGIER</option>
+                                        <option value="TANJUNG PRIOK">TANJUNG PRIOK</option>
+                                        <option value="TEMA">TEMA</option>
+                                        <option value="TIANJIN">TIANJIN</option>
+                                        <option value="TOKYO">TOKYO</option>
+                                        <option value="VALENCIA">VALENCIA</option>
+                                        <option value="VALPARAISO">VALPARAISO</option>
+                                        <option value="VANCOUVER">VANCOUVER</option>
+                                        <option value="XIAMEN">XIAMEN</option>
+                                        <option value="YANGON">YANGON</option>
+                                        <option value="Other">Other (Please specify in comments)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="cargo-type" class="block text-gray-700 font-medium mb-2">Cargo Type *</label>
+                                    <select id="cargo-type" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" required>
+                                        <option value="">Select cargo type</option>
+                                        <option value="general">General Cargo</option>
+                                        <option value="hazardous">Hazardous Materials</option>
+                                        <option value="perishable">Perishable Goods</option>
+                                        <option value="oversized">Oversized/Heavy Cargo</option>
+                                        <option value="automotive">Automotive</option>
+                                        <option value="electronics">Electronics</option>
+                                        <option value="textiles">Textiles</option>
+                                        <option value="machinery">Machinery</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="incoterms" class="block text-gray-700 font-medium mb-2">Incoterms</label>
+                                    <select id="incoterms" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors">
+                                        <option value="">Select Incoterms</option>
+                                        <option value="exw">EXW - Ex Works</option>
+                                        <option value="fca">FCA - Free Carrier</option>
+                                        <option value="cpt">CPT - Carriage Paid To</option>
+                                        <option value="cip">CIP - Carriage and Insurance Paid To</option>
+                                        <option value="dap">DAP - Delivered at Place</option>
+                                        <option value="dpu">DPU - Delivered at Place Unloaded</option>
+                                        <option value="ddp">DDP - Delivered Duty Paid</option>
+                                        <option value="fas">FAS - Free Alongside Ship</option>
+                                        <option value="fob">FOB - Free on Board</option>
+                                        <option value="cfr">CFR - Cost and Freight</option>
+                                        <option value="cif">CIF - Cost, Insurance and Freight</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cargo Specifications -->
+                        <div data-section="cargo-specs">
+                            <h3 class="text-xl font-heading font-semibold text-dark mb-4">Cargo Specifications</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <label for="weight" class="block text-gray-700 font-medium mb-2">Total Weight (kg) *</label>
+                                    <input type="number" id="weight" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="1000" required>
+                                </div>
+                                <div>
+                                    <label for="volume" class="block text-gray-700 font-medium mb-2">Volume (CBM)</label>
+                                    <input type="number" id="volume" step="0.1" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="10.5">
+                                </div>
+                                <div>
+                                    <label for="packages" class="block text-gray-700 font-medium mb-2">Number of Packages</label>
+                                    <input type="number" id="packages" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="50">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                                <div>
+                                    <label for="length" class="block text-gray-700 font-medium mb-2">Length (cm)</label>
+                                    <input type="number" id="length" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="120">
+                                </div>
+                                <div>
+                                    <label for="width" class="block text-gray-700 font-medium mb-2">Width (cm)</label>
+                                    <input type="number" id="width" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="80">
+                                </div>
+                                <div>
+                                    <label for="height" class="block text-gray-700 font-medium mb-2">Height (cm)</label>
+                                    <input type="number" id="height" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="100">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Services -->
+                        <div data-section="additional-services">
+                            <h3 class="text-xl font-heading font-semibold text-dark mb-4">Additional Services</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="additional-services" value="insurance" class="mr-3 text-primary">
+                                    <span>Cargo Insurance</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="additional-services" value="customs" class="mr-3 text-primary">
+                                    <span>Customs Clearance</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="additional-services" value="warehousing" class="mr-3 text-primary">
+                                    <span>Warehousing</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="additional-services" value="packaging" class="mr-3 text-primary">
+                                    <span>Packaging Services</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="additional-services" value="tracking" class="mr-3 text-primary">
+                                    <span>Premium Tracking</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="additional-services" value="delivery" class="mr-3 text-primary">
+                                    <span>Door-to-Door Delivery</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Special Requirements -->
+                        <div>
+                            <label for="special-requirements" class="block text-gray-700 font-medium mb-2">Special Requirements or Comments</label>
+                            <textarea id="special-requirements" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="Please describe any special handling requirements, temperature control needs, or other important details..."></textarea>
+                        </div>
+
+                        <!-- Terms and Submit -->
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-3">
+                                <input type="checkbox" id="terms" class="mt-1 w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary" required>
+                                <label for="terms" class="text-gray-600 text-sm">
+                                    I agree to the <a href="#" class="text-primary hover:underline">Terms of Service</a> and <a href="#" class="text-primary hover:underline">Privacy Policy</a>. I consent to being contacted by Cargo Express Logistics regarding this quote request.
+                                </label>
+                            </div>
+
+                            <div class="flex items-start space-x-3">
+                                <input type="checkbox" id="marketing" class="mt-1 w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary">
+                                <label for="marketing" class="text-gray-600 text-sm">
+                                    I would like to receive industry insights, logistics tips, and company updates via email.
+                                </label>
+                            </div>
+
+                            <div class="text-center pt-6">
+                                <button type="submit" class="bg-primary hover:bg-blue-700 text-white px-12 py-4 rounded-lg font-semibold text-lg transition-colors">
+                                    Request Quote
+                                </button>
+                                <p class="text-gray-500 text-sm mt-4">You'll receive your quote within 24 hours via email</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Panel Section -->
+    <section id="admin-panel-section" class="py-20 bg-gray-100 hidden">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-heading font-bold text-dark">Quote Requests (Admin)</h2>
+                        <button id="toggle-admin-panel-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium transition-colors">
+                            Hide
+                        </button>
+                    </div>
+                    <div class="text-gray-500 text-sm mb-4">
+                        Your User ID: <span id="user-id-display" class="font-mono font-bold text-dark break-all"></span>
+                    </div>
+                    <div id="quote-list" class="space-y-4">
+                        <p class="text-center text-gray-500" id="loading-quotes">Loading recent quotes...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Our Quotes -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-heading font-bold text-dark mb-6">Why Choose Our Quote Service</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Transparent, competitive, and comprehensive pricing for all your logistics needs</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="ri-time-line text-primary text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold text-dark mb-4">Fast Response</h3>
+                    <p class="text-gray-600">Receive your detailed quote within 24 hours of submission</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="ri-money-dollar-circle-line text-primary text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold text-dark mb-4">Competitive Rates</h3>
+                    <p class="text-gray-600">Best-in-market pricing with no hidden fees or surprises</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="ri-file-text-line text-primary text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold text-dark mb-4">Detailed Breakdown</h3>
+                    <p class="text-gray-600">Comprehensive cost breakdown with all services included</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="ri-customer-service-2-line text-primary text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold text-dark mb-4">Expert Support</h3>
+                    <p class="text-gray-600">Dedicated logistics experts to discuss your requirements</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <img src="https://placehold.co/100x48/1e40af/ffffff?text=Cargo+Express" alt="Cargo Express Logo" class="h-12 w-auto">
+                        <span class="text-2xl font-heading font-bold">Cargo Express Logistics</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Your trusted partner for global logistics solutions, connecting businesses worldwide.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-linkedin-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-twitter-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-heading font-semibold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-heading font-semibold mb-6">Services</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Sea Freight</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Air Freight</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Road Transport</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Warehousing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Customs Clearance</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-heading font-semibold mb-6">Contact Info</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-map-pin-line text-primary mt-1"></i>
+                            <div class="text-gray-400">
+                                <p>301/A Rajkamal Plaza</p>
+                                <p>Ahmedabad, Gujarat 380014</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="ri-phone-line text-primary"></i>
+                            <span class="text-gray-400">+91 79 2658 7890</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="ri-mail-line text-primary"></i>
+                            <span class="text-gray-400">info@cargoexpress.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0">&copy; 2025 Cargo Express Logistics. All rights reserved.</p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        // Import Firebase modules for app initialization, auth, and Firestore
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Initialization and Auth ---
+        // These variables are provided by the canvas environment and should not be modified
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // Initialize Firebase app and services
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        let userId = null;
+
+        // Listen for authentication state changes
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // User is signed in.
+                userId = user.uid;
+                console.log('Firebase user authenticated:', userId);
+                document.getElementById('user-id-display').textContent = userId;
+
+                // Start listening to the database for real-time updates
+                listenForQuotes();
+
+            } else {
+                // User is signed out.
+                console.log('Firebase user is signed out. Attempting anonymous sign-in...');
+                if (initialAuthToken) {
+                    try {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                        console.log('Signed in with custom token.');
+                    } catch (error) {
+                        console.error('Custom token sign-in failed:', error);
+                        // Fallback to anonymous sign-in if custom token fails
+                        try {
+                            await signInAnonymously(auth);
+                            console.log('Signed in anonymously after token failure.');
+                        } catch (anonError) {
+                            console.error('Anonymous sign-in failed:', anonError);
+                        }
+                    }
+                } else {
+                    try {
+                        await signInAnonymously(auth);
+                        console.log('Signed in anonymously.');
+                    } catch (anonError) {
+                        console.error('Anonymous sign-in failed:', anonError);
+                    }
+                }
+            }
+        });
+
+        // --- Real-Time Quote Display (Admin Panel) ---
+        function listenForQuotes() {
+            const quoteList = document.getElementById('quote-list');
+            const loadingIndicator = document.getElementById('loading-quotes');
+
+            // Define the collection path for public data
+            const quotesCollection = collection(db, 'artifacts', appId, 'public', 'data', 'quoteRequests');
+
+            // Set up a real-time listener
+            const q = query(quotesCollection);
+
+            onSnapshot(q, (snapshot) => {
+                quoteList.innerHTML = ''; // Clear the list
+                loadingIndicator.style.display = 'none';
+
+                if (snapshot.empty) {
+                    quoteList.innerHTML = '<p class="text-center text-gray-500">No quotes submitted yet.</p>';
+                    return;
+                }
+
+                // Iterate through the documents and render them
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const quoteElement = document.createElement('div');
+                    quoteElement.className = 'bg-gray-50 p-4 rounded-lg shadow';
+
+                    let services = data.additionalServices.length > 0 ? data.additionalServices.join(', ') : 'None';
+                    let specs = `Weight: ${data.weight} kg`;
+                    if (data.volume) specs += `, Volume: ${data.volume} CBM`;
+
+                    quoteElement.innerHTML = `
+                        <p class="font-bold text-lg text-primary">Quote ID: ${doc.id}</p>
+                        <p class="text-sm text-gray-600">Submitted by: ${data.customerName || 'N/A'}</p>
+                        <p class="text-sm text-gray-600">Email: ${data.customerEmail || 'N/A'}</p>
+                        <p class="text-sm text-gray-600">Route: <span class="font-medium">${data.origin} → ${data.destination}</span></p>
+                        <p class="text-sm text-gray-600">Cargo: <span class="font-medium">${data.cargoType}</span></p>
+                        <p class="text-sm text-gray-600">Specs: ${specs}</p>
+                        <p class="text-sm text-gray-600">Services: ${services}</p>
+                        <p class="text-sm text-gray-600">Submitted At: ${data.timestamp ? new Date(data.timestamp.toDate()).toLocaleString() : 'N/A'}</p>
+                    `;
+                    quoteList.appendChild(quoteElement);
+                });
+            }, (error) => {
+                console.error("Error fetching documents:", error);
+                loadingIndicator.style.display = 'none';
+                quoteList.innerHTML = '<p class="text-center text-red-500">Failed to load quotes. Please check your network connection.</p>';
+            });
+        }
+
+        // --- UI Logic and Form Handling ---
+
+        // Global object for app-level functions
+        window.CargoExpress = window.CargoExpress || {};
+
+        /**
+         * Shows a temporary notification message at the top of the page.
+         * @param {string} message The message to display.
+         * @param {string} type The type of notification ('success' or 'error').
+         */
+        window.CargoExpress.showNotification = function(message, type) {
+            const container = document.getElementById('notification-container');
+            if (!container) return;
+
+            const notification = document.createElement('div');
+            notification.className = `notification ${type} animate-fade-in`;
+            notification.innerHTML = `
+                <div class="notification-icon">
+                    <i class="ri-${type === 'success' ? 'check-circle-fill' : 'close-circle-fill'}"></i>
+                </div>
+                <div>${message}</div>
+            `;
+            container.appendChild(notification);
+            setTimeout(() => {
+                notification.classList.remove('animate-fade-in');
+                notification.classList.add('animate-fade-out');
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const quoteForm = document.getElementById('quote-form');
+            if (quoteForm) {
+                initializeProgressiveForm();
+                quoteForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    submitQuoteRequest();
+                });
+            }
+
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenuCloseBtn = document.getElementById('mobile-menu-close');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuBtn && mobileMenu && mobileMenuCloseBtn) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.remove('-translate-x-full');
+                });
+                mobileMenuCloseBtn.addEventListener('click', () => {
+                    mobileMenu.classList.add('-translate-x-full');
+                });
+            }
+
+            // Admin panel toggle
+            const quoteSection = document.getElementById('quote-section');
+            const adminSection = document.getElementById('admin-panel-section');
+            const toggleBtn = document.createElement('button');
+            toggleBtn.textContent = 'View Admin Panel';
+            toggleBtn.className = 'block mx-auto mt-8 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-medium transition-colors';
+            toggleBtn.id = 'toggle-admin-panel-btn';
+            adminSection.parentElement.insertBefore(toggleBtn, adminSection);
+
+            toggleBtn.addEventListener('click', () => {
+                const isFormVisible = quoteSection.classList.contains('py-20');
+                if (isFormVisible) {
+                    quoteSection.classList.replace('py-20', 'hidden');
+                    adminSection.classList.remove('hidden');
+                    toggleBtn.textContent = 'View Quote Form';
+                } else {
+                    quoteSection.classList.replace('hidden', 'py-20');
+                    adminSection.classList.add('hidden');
+                    toggleBtn.textContent = 'View Admin Panel';
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        function initializeProgressiveForm() {
+            disableFormSections(['contact-info', 'shipment-details', 'cargo-specs', 'additional-services']);
+
+            const serviceTypeRadios = document.querySelectorAll('input[name="service-type"]');
+            serviceTypeRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.checked) {
+                        const serviceTypeSection = document.querySelector('[data-section="service-type"]');
+                        serviceTypeSection.querySelectorAll('label').forEach(label => label.classList.remove('border-primary'));
+                        this.closest('label').classList.add('border-primary');
+                        enableFormSection('contact-info');
+                        window.CargoExpress.showNotification('✓ Service type selected! Please fill in your contact information to continue.', 'success');
+                    }
+                });
+            });
+
+            const contactInputs = ['contact-name', 'contact-email'];
+            contactInputs.forEach(inputId => {
+                const input = document.getElementById(inputId);
+                if (input) {
+                    input.addEventListener('input', checkContactCompletion);
+                }
+            });
+        }
+
+        function disableFormSections(sections) {
+            sections.forEach(sectionName => {
+                const section = document.querySelector(`[data-section="${sectionName}"]`);
+                if (section) {
+                    section.style.opacity = '0.5';
+                    section.style.pointerEvents = 'none';
+                    const inputs = section.querySelectorAll('input, select, textarea');
+                    inputs.forEach(input => { input.disabled = true; });
+                }
+            });
+        }
+
+        function enableFormSection(sectionName) {
+            const section = document.querySelector(`[data-section="${sectionName}"]`);
+            if (section) {
+                section.style.opacity = '1';
+                section.style.pointerEvents = 'auto';
+                const inputs = section.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => { input.disabled = false; });
+            }
+        }
+
+        function checkContactCompletion() {
+            const nameField = document.getElementById('contact-name');
+            const emailField = document.getElementById('contact-email');
+
+            const nameValid = nameField.value.trim().length >= 2;
+            const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField.value.trim());
+
+            if (nameValid && emailValid) {
+                enableFormSection('shipment-details');
+                window.CargoExpress.showNotification('✓ Contact details verified! Now select your shipment origin and destination.', 'success');
+                addShipmentValidation();
+            }
+        }
+
+        function addShipmentValidation() {
+            const shipmentFields = ['origin', 'destination', 'cargo-type'];
+            let completedFields = 0;
+
+            shipmentFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field && !field.dataset.listenerAdded) {
+                    field.addEventListener('change', function() {
+                        if (this.value) {
+                            this.classList.add('border-green-500');
+                            completedFields++;
+                            if (completedFields >= 3) {
+                                enableFormSection('cargo-specs');
+                                addCargoValidation();
+                                window.CargoExpress.showNotification('✓ Shipment route confirmed! Please provide your cargo specifications.', 'success');
+                            }
+                        } else {
+                            this.classList.remove('border-green-500');
+                            completedFields = Math.max(0, completedFields - 1);
+                        }
+                    });
+                    field.dataset.listenerAdded = 'true';
+                }
+            });
+        }
+
+        function addCargoValidation() {
+            const weightField = document.getElementById('weight');
+            if (weightField && !weightField.dataset.listenerAdded) {
+                weightField.addEventListener('blur', function() {
+                    const weight = parseFloat(this.value);
+                    if (weight && weight > 0) {
+                        this.classList.add('border-green-500');
+                        enableFormSection('additional-services');
+                        window.CargoExpress.showNotification('✓ Cargo details added! You can now submit your quote request.', 'success');
+                    } else {
+                        this.classList.remove('border-green-500');
+                    }
+                });
+                weightField.dataset.listenerAdded = 'true';
+            }
+        }
+
+        async function submitQuoteRequest() {
+            const quoteForm = document.getElementById('quote-form');
+            if (!quoteForm) {
+                console.error('Quote form not found');
+                return;
+            }
+
+            const submitBtn = document.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<div class="loading mr-2"></div>Processing...';
+            submitBtn.disabled = true;
+
+            const serviceTypeElement = document.querySelector('input[name="service-type"]:checked');
+            const formData = {
+                serviceType: serviceTypeElement ? serviceTypeElement.value : '',
+                customerName: document.getElementById('contact-name')?.value.trim() || '',
+                customerEmail: document.getElementById('contact-email')?.value.trim() || '',
+                phone: document.getElementById('contact-phone')?.value.trim() || '',
+                company: document.getElementById('contact-company')?.value.trim() || '',
+                origin: document.getElementById('origin')?.value.trim() || '',
+                destination: document.getElementById('destination')?.value.trim() || '',
+                cargoType: document.getElementById('cargo-type')?.value || '',
+                incoterms: document.getElementById('incoterms')?.value || '',
+                weight: parseFloat(document.getElementById('weight')?.value || '0'),
+                volume: parseFloat(document.getElementById('volume')?.value || '0') || 0,
+                packages: parseInt(document.getElementById('packages')?.value || '0') || 0,
+                length: parseFloat(document.getElementById('length')?.value || '0') || 0,
+                width: parseFloat(document.getElementById('width')?.value || '0') || 0,
+                height: parseFloat(document.getElementById('height')?.value || '0') || 0,
+                additionalServices: Array.from(document.querySelectorAll('input[name="additional-services"]:checked')).map(cb => cb.value),
+                specialRequirements: document.getElementById('special-requirements')?.value.trim() || '',
+                termsAccepted: document.getElementById('terms')?.checked || false,
+                marketingConsent: document.getElementById('marketing')?.checked || false
+            };
+
+            // Enhanced validation with specific error highlighting
+            let validationErrors = [];
+            let firstErrorField = null;
+
+            if (!formData.serviceType) {
+                validationErrors.push('Please select a service type.');
+                firstErrorField = document.querySelector('[data-section="service-type"]');
+            }
+            if (!formData.customerName) {
+                validationErrors.push('Full name is required.');
+                if (!firstErrorField) firstErrorField = document.getElementById('contact-name');
+            }
+            if (!formData.customerEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.customerEmail)) {
+                validationErrors.push('A valid email address is required.');
+                if (!firstErrorField) firstErrorField = document.getElementById('contact-email');
+            }
+            if (!formData.origin) {
+                validationErrors.push('Please select an origin port.');
+                if (!firstErrorField) firstErrorField = document.getElementById('origin');
+            }
+            if (!formData.destination) {
+                validationErrors.push('Please select a destination port.');
+                if (!firstErrorField) firstErrorField = document.getElementById('destination');
+            }
+            if (!formData.cargoType) {
+                validationErrors.push('Cargo type is required.');
+                if (!firstErrorField) firstErrorField = document.getElementById('cargo-type');
+            }
+            if (!formData.weight || formData.weight <= 0) {
+                validationErrors.push('A valid total weight is required.');
+                if (!firstErrorField) firstErrorField = document.getElementById('weight');
+            }
+            if (!formData.termsAccepted) {
+                validationErrors.push('Please accept the terms and conditions.');
+                if (!firstErrorField) firstErrorField = document.getElementById('terms');
+            }
+
+            if (validationErrors.length > 0) {
+                validationErrors.forEach(error => window.CargoExpress.showNotification(error, 'error'));
+                if (firstErrorField) {
+                    firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    if (firstErrorField.tagName === 'INPUT' || firstErrorField.tagName === 'SELECT' || firstErrorField.tagName === 'TEXTAREA') {
+                        setTimeout(() => firstErrorField.focus(), 100);
+                    }
+                }
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                return;
+            }
+
+            // Save to Firestore
+            try {
+                const quotesCollection = collection(db, 'artifacts', appId, 'public', 'data', 'quoteRequests');
+                const docRef = await addDoc(quotesCollection, {
+                    ...formData,
+                    submittedByUserId: userId,
+                    timestamp: serverTimestamp(),
+                });
+
+                showQuoteConfirmation(docRef.id);
+                quoteForm.reset();
+                initializeProgressiveForm(); // Re-initialize form state
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                window.CargoExpress.showNotification('An error occurred. Please try again.', 'error');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        function showQuoteConfirmation(quoteId) {
+            const existingModal = document.querySelector('.quote-confirmation-modal');
+            if (existingModal) existingModal.remove();
+
+            const modal = document.createElement('div');
+            modal.className = 'quote-confirmation-modal fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg max-w-md w-full p-6 text-center animate-fade-in">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="ri-check-line text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-bold text-dark mb-2">Quote Request Submitted!</h3>
+                    <p class="text-gray-600 mb-4">Your quote reference number is:</p>
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <span class="text-lg font-mono font-bold text-primary">${quoteId}</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-6">Please save this reference number. Our experts will review your requirements and get back to you within 24 hours.</p>
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                        <button id="close-confirmation" class="bg-primary hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            setTimeout(() => modal.style.display = 'flex', 10);
+
+            document.getElementById('close-confirmation').addEventListener('click', () => {
+                modal.remove();
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Cargo Express Logistics</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#f59e0b',
+                        accent: '#0ea5e9',
+                        dark: '#1f2937'
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <script>
+        // Immediate authentication check before page renders
+        (function() {
+            const sessionToken = localStorage.getItem('admin_session_token');
+            const loginTime = localStorage.getItem('admin_login_time');
+
+            if (!sessionToken || !loginTime) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Check session validity (2 hours)
+            const now = new Date();
+            const loginDate = new Date(loginTime);
+            const timeDiff = now - loginDate;
+            const hoursDiff = timeDiff / (1000 * 60 * 60);
+
+            if (hoursDiff > 2) {
+                localStorage.removeItem('admin_session_token');
+                localStorage.removeItem('admin_login_time');
+                localStorage.removeItem('admin_authenticated');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Show the body content once authentication is verified
+            document.addEventListener('DOMContentLoaded', function() {
+                document.body.style.display = 'block';
+            });
+        })();
+    </script>
+</head>
+<body class="font-body bg-gray-50">
+    <!-- Header -->
+</body>
+    <header class="bg-dark shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                        <i class="ri-ship-line text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-heading font-bold text-white">Cargo Express Admin</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-300">Welcome, Admin</span>
+                    <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                        <i class="ri-logout-box-line mr-1"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-6 py-8">
+        <!-- Dashboard Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="ri-file-list-3-line text-primary text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Total Quotes</h3>
+                        <p class="text-2xl font-bold text-primary" id="total-quotes">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i class="ri-check-line text-green-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Processed</h3>
+                        <p class="text-2xl font-bold text-green-600" id="processed-quotes">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                        <i class="ri-time-line text-yellow-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Pending</h3>
+                        <p class="text-2xl font-bold text-yellow-600" id="pending-quotes">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                        <i class="ri-eye-line text-indigo-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Today's Visits</h3>
+                        <p class="text-2xl font-bold text-indigo-600" id="todays-visits">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visitor Analytics -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-heading font-bold text-dark">Visitor Analytics</h2>
+                <div class="flex space-x-2">
+                    <select id="analytics-period" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="year">This Year</option>
+                    </select>
+                    <button onclick="exportVisitorData()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                        <i class="ri-download-line mr-1"></i> Export
+                    </button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <div class="text-2xl font-bold text-primary" id="period-visits">0</div>
+                    <div class="text-sm text-gray-600">Total Visits</div>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <div class="text-2xl font-bold text-green-600" id="unique-visitors">0</div>
+                    <div class="text-sm text-gray-600">Unique Visitors</div>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <div class="text-2xl font-bold text-yellow-600" id="avg-session">0s</div>
+                    <div class="text-sm text-gray-600">Avg Session</div>
+                </div>
+                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                    <div class="text-2xl font-bold text-purple-600" id="quote-conversion">0%</div>
+                    <div class="text-sm text-gray-600">Quote Conversion</div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <!-- Quote Requests -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-heading font-bold text-dark">Quote Requests</h2>
+                <div class="flex space-x-2">
+                    <select id="status-filter" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                        <option value="all">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="quoted">Quoted</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                    <button onclick="refreshAdminData()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                        <i class="ri-refresh-line mr-1"></i> Refresh
+                    </button>
+                    <button onclick="exportQuotes()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                        <i class="ri-download-line mr-1"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full table-auto">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Date</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Customer</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Contact</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Service</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Route</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Weight</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="quotes-table">
+                        <!-- Quotes will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quote Details Modal -->
+    <div id="quote-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-4xl w-full max-h-96 overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-heading font-bold text-dark">Quote Details & Status Update</h3>
+                        <button onclick="closeQuoteModal()" class="text-gray-400 hover:text-gray-600">
+                            <i class="ri-close-line text-2xl"></i>
+                        </button>
+                    </div>
+
+                    <div id="quote-details" class="space-y-4">
+                        <!-- Quote details will be populated here -->
+                    </div>
+
+                    <div class="mt-6 space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="quote-status" class="block text-gray-700 font-medium mb-2">Update Status</label>
+                                <select id="quote-status" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20">
+                                    <option value="pending">Pending Review</option>
+                                    <option value="quoted">Quote Sent</option>
+                                    <option value="accepted">Accepted by Customer</option>
+                                    <option value="rejected">Rejected</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="quote-amount" class="block text-gray-700 font-medium mb-2">Quote Amount ($)</label>
+                                <input type="number" id="quote-amount" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="Enter quote amount">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="admin-notes" class="block text-gray-700 font-medium mb-2">Admin Notes</label>
+                            <textarea id="admin-notes" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="Internal notes for this quote..."></textarea>
+                        </div>
+
+                        <div>
+                            <label for="customer-message" class="block text-gray-700 font-medium mb-2">Message to Customer</label>
+                            <textarea id="customer-message" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="Optional message to include in email to customer..."></textarea>
+                        </div>
+
+                        <div class="flex flex-wrap gap-3">
+                            <button onclick="updateQuoteStatus()" class="bg-primary hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                                <i class="ri-refresh-line mr-1"></i>Update Status
+                            </button>
+                            <button onclick="quickUpdateToQuoted()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                                <i class="ri-price-tag-3-line mr-1"></i>Set to Quoted
+                            </button>
+                            <button onclick="sendCustomerEmail()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                                <i class="ri-mail-send-line mr-1"></i>Send Email
+                            </button>
+                            <button onclick="calculateQuote()" class="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                                <i class="ri-calculator-line mr-1"></i>Calculate
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Client Modal -->
+    <div id="client-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-md w-full">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-heading font-bold text-dark">Add New Client</h3>
+                        <button onclick="closeClientModal()" class="text-gray-400 hover:text-gray-600">
+                            <i class="ri-close-line text-2xl"></i>
+                        </button>
+                    </div>
+
+                    <form id="client-form" class="space-y-4">
+                        <div>
+                            <label for="client-name" class="block text-gray-700 font-medium mb-2">Client Name</label>
+                            <input type="text" id="client-name" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="Enter client name">
+                        </div>
+
+                        <div>
+                            <label for="client-logo" class="block text-gray-700 font-medium mb-2">Logo URL</label>
+                            <input type="url" id="client-logo" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20" placeholder="https://example.com/logo.png">
+                            <p class="text-sm text-gray-500 mt-1">Recommended size: 120x60px</p>
+                        </div>
+
+                        <div class="flex gap-3 pt-4">
+                            <button type="submit" class="bg-primary hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors flex-1">
+                                <i class="ri-add-line mr-1"></i>Add Client
+                            </button>
+                            <button type="button" onclick="closeClientModal()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/main.js"></script>
+    <script src="scripts/admin-secure.js"></script>
+    <script>
+        // Client management functions
+        document.addEventListener('DOMContentLoaded', function() {
+            loadClientsManagement();
+
+            // Client form submission
+            document.getElementById('client-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addClient();
+            });
+        });
+
+        function loadClientsManagement() {
+            const clients = JSON.parse(localStorage.getItem('clients') || '[]');
+            const grid = document.getElementById('clients-management-grid');
+            grid.innerHTML = '';
+
+            if (clients.length === 0) {
+                // Initialize with default clients
+                const defaultClients = [
+                    { id: 1, name: 'TechCorp', logo: 'https://via.placeholder.com/120x60/4F46E5/white?text=TechCorp' },
+                    { id: 2, name: 'Global Trade', logo: 'https://via.placeholder.com/120x60/059669/white?text=Global+Trade' },
+                    { id: 3, name: 'Logistics Plus', logo: 'https://via.placeholder.com/120x60/DC2626/white?text=Logistics+Plus' },
+                    { id: 4, name: 'Cargo Masters', logo: 'https://via.placeholder.com/120x60/7C3AED/white?text=Cargo+Masters' },
+                    { id: 5, name: 'Express Delivery', logo: 'https://via.placeholder.com/120x60/EA580C/white?text=Express+Delivery' },
+                    { id: 6, name: 'Maritime Corp', logo: 'https://via.placeholder.com/120x60/0891B2/white?text=Maritime+Corp' }
+                ];
+                localStorage.setItem('clients', JSON.stringify(defaultClients));
+                displayClientsManagement(defaultClients);
+            } else {
+                displayClientsManagement(clients);
+            }
+        }
+
+        function displayClientsManagement(clients) {
+            const grid = document.getElementById('clients-management-grid');
+
+            clients.forEach(client => {
+                const clientDiv = document.createElement('div');
+                clientDiv.className = 'bg-gray-50 rounded-lg p-4 relative group hover:bg-gray-100 transition-colors';
+                clientDiv.innerHTML = `
+                    <div class="text-center">
+                        <img src="${client.logo}" alt="${client.name}" class="max-h-12 w-auto mx-auto mb-2" onerror="this.src='https://via.placeholder.com/120x60/6B7280/white?text=${encodeURIComponent(client.name)}'">
+                        <h4 class="text-sm font-medium text-gray-900 truncate">${client.name}</h4>
+                    </div>
+                    <button onclick="removeClient(${client.id})" class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <i class="ri-close-line text-xs"></i>
+                    </button>
+                `;
+                grid.appendChild(clientDiv);
+            });
+        }
+
+        function showAddClientModal() {
+            document.getElementById('client-modal').classList.remove('hidden');
+        }
+
+        function closeClientModal() {
+            document.getElementById('client-modal').classList.add('hidden');
+            document.getElementById('client-form').reset();
+        }
+
+        function addClient() {
+            const name = document.getElementById('client-name').value;
+            const logo = document.getElementById('client-logo').value;
+
+            if (!name || !logo) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            const clients = JSON.parse(localStorage.getItem('clients') || '[]');
+            const newClient = {
+                id: Date.now(),
+                name: name,
+                logo: logo
+            };
+
+            clients.push(newClient);
+            localStorage.setItem('clients', JSON.stringify(clients));
+
+            loadClientsManagement();
+            closeClientModal();
+
+            if (window.CargoExpress && window.CargoExpress.showNotification) {
+                window.CargoExpress.showNotification('Client added successfully!', 'success');
+            } else {
+                alert('Client added successfully!');
+            }
+        }
+
+        function removeClient(clientId) {
+            if (confirm('Are you sure you want to remove this client?')) {
+                const clients = JSON.parse(localStorage.getItem('clients') || '[]');
+                const updatedClients = clients.filter(client => client.id !== clientId);
+                localStorage.setItem('clients', JSON.stringify(updatedClients));
+
+                loadClientsManagement();
+
+                if (window.CargoExpress && window.CargoExpress.showNotification) {
+                    window.CargoExpress.showNotification('Client removed successfully!', 'success');
+                } else {
+                    alert('Client removed successfully!');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,426 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Quote - Cargo Express Logistics</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#f59e0b',
+                        accent: '#0ea5e9',
+                        dark: '#1f2937'
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/loader.css">
+</head>
+<body class="font-body">
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 w-full z-50 bg-dark/95 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                        <i class="ri-ship-line text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-heading font-bold text-white">Cargo Express</span>
+                </a>
+
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link text-white hover:text-secondary transition-colors">Home</a>
+                    <a href="services.html" class="nav-link text-white hover:text-secondary transition-colors">Services</a>
+                    <a href="about.html" class="nav-link text-white hover:text-secondary transition-colors">About</a>
+                    <a href="contact.html" class="nav-link text-white hover:text-secondary transition-colors">Contact</a>
+                    <a href="quote.html" class="bg-secondary hover:bg-yellow-500 text-white px-6 py-2 rounded-lg font-medium transition-colors">Get Quote</a>
+                </nav>
+
+                <button class="lg:hidden text-white" id="mobile-menu-btn">
+                    <i class="ri-menu-line text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="lg:hidden fixed top-0 left-0 w-full h-full bg-dark/95 backdrop-blur-sm transform -translate-x-full transition-transform duration-300">
+            <div class="flex flex-col h-full">
+                <div class="flex justify-between items-center p-6 border-b border-gray-700">
+                    <span class="text-xl font-heading font-bold text-white">Menu</span>
+                    <button id="mobile-menu-close" class="text-white">
+                        <i class="ri-close-line text-2xl"></i>
+                    </button>
+                </div>
+                <nav class="flex flex-col space-y-4 p-6">
+                    <a href="index.html" class="text-white hover:text-secondary transition-colors py-2">Home</a>
+                    <a href="services.html" class="text-white hover:text-secondary transition-colors py-2">Services</a>
+                    <a href="about.html" class="text-white hover:text-secondary transition-colors py-2">About</a>
+                    <a href="contact.html" class="text-white hover:text-secondary transition-colors py-2">Contact</a>
+                    <a href="quote.html" class="bg-secondary hover:bg-yellow-500 text-white px-6 py-3 rounded-lg font-medium transition-colors inline-block text-center mt-4">Get Quote</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 bg-gradient-to-br from-primary to-blue-800">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-5xl md:text-6xl font-heading font-bold text-white mb-6">Get Your Quote</h1>
+            <p class="text-xl text-blue-100 max-w-3xl mx-auto">Receive a personalized quote for your logistics needs within 24 hours</p>
+        </div>
+    </section>
+
+    <!-- Quote Form -->
+    <section id="quote-section" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-gray-50 rounded-2xl shadow-lg p-8">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-heading font-bold text-dark mb-4">Request Your Free Quote</h2>
+                        <p class="text-gray-600">Fill out the form below and our logistics experts will provide you with a detailed quote</p>
+                    </div>
+                    <form id="quote-form" class="space-y-8">
+                        <!-- Service Type -->
+                        <div data-section="service-type">
+                            <h3 class="text-xl font-heading font-semibold text-dark mb-4">Service Type *</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-primary transition-colors">
+                                    <input type="radio" name="service-type" value="sea-freight" class="mr-3 text-primary">
+                                    <div class="flex items-center">
+                                        <i class="ri-ship-line text-primary text-xl mr-3"></i>
+                                        <span class="font-medium">Sea Freight</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-primary transition-colors">
+                                    <input type="radio" name="service-type" value="air-freight" class="mr-3 text-primary">
+                                    <div class="flex items-center">
+                                        <i class="ri-plane-line text-primary text-xl mr-3"></i>
+                                        <span class="font-medium">Air Freight</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:border-primary transition-colors">
+                                    <input type="radio" name="service-type" value="road-transport" class="mr-3 text-primary">
+                                    <div class="flex items-center">
+                                        <i class="ri-truck-line text-primary text-xl mr-3"></i>
+                                        <span class="font-medium">Road Transport</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div data-section="contact-info">
+                            <h3 class="text-xl font-heading font-semibold text-dark mb-4">Contact Information</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="contact-name" class="block text-gray-700 font-medium mb-2">Full Name *</label>
+                                    <input type="text" id="contact-name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="Your full name" required>
+                                </div>
+                                <div>
+                                    <label for="contact-email" class="block text-gray-700 font-medium mb-2">Email Address *</label>
+                                    <input type="email" id="contact-email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="your@email.com" required>
+                                </div>
+                                <div>
+                                    <label for="contact-phone" class="block text-gray-700 font-medium mb-2">Phone Number</label>
+                                    <input type="tel" id="contact-phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="+1 (555) 123-4567">
+                                </div>
+                                <div>
+                                    <label for="contact-company" class="block text-gray-700 font-medium mb-2">Company Name</label>
+                                    <input type="text" id="contact-company" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="Your company">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shipment Details -->
+                        <div data-section="shipment-details">
+                            <h3 class="text-xl font-heading font-semibold text-dark mb-4">Shipment Details</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="origin" class="block text-gray-700 font-medium mb-2">Origin (From) *</label>
+                                    <select id="origin" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" required>
+                                        <option value="">Select origin port</option>
+                                        <option value="SHANGHAI">Shanghai</option>
+                                        <option value="NINGBO">Ningbo</option>
+                                        <option value="GUANGZHOU">Guangzhou</option>
+                                        <option value="SHENZHEN">Shenzhen</option>
+                                        <option value="QINGDAO">Qingdao</option>
+                                        <option value="TIANJIN">Tianjin</option>
+                                        <option value="MUMBAI">Mumbai</option>
+                                        <option value="CHENNAI">Chennai</option>
+                                        <option value="KOLKATA">Kolkata</option>
+                                        <option value="SINGAPORE">Singapore</option>
+                                        <option value="Other">Other (Please specify in comments)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="destination" class="block text-gray-700 font-medium mb-2">Destination (To) *</label>
+                                    <select id="destination" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" required>
+                                        <option value="">Select destination port</option>
+                                        <option value="NEW YORK">New York</option>
+                                        <option value="LOS ANGELES">Los Angeles</option>
+                                        <option value="HAMBURG">Hamburg</option>
+                                        <option value="ROTTERDAM">Rotterdam</option>
+                                        <option value="DUBAI">Dubai</option>
+                                        <option value="JEBEL ALI">Jebel Ali</option>
+                                        <option value="FELIXSTOWE">Felixstowe</option>
+                                        <option value="SINGAPORE">Singapore</option>
+                                        <option value="TOKYO">Tokyo</option>
+                                        <option value="SYDNEY">Sydney</option>
+                                        <option value="Other">Other (Please specify in comments)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="cargo-type" class="block text-gray-700 font-medium mb-2">Cargo Type *</label>
+                                    <select id="cargo-type" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" required>
+                                        <option value="">Select cargo type</option>
+                                        <option value="general">General Cargo</option>
+                                        <option value="hazardous">Hazardous Materials</option>
+                                        <option value="perishable">Perishable Goods</option>
+                                        <option value="oversized">Oversized/Heavy Cargo</option>
+                                        <option value="automotive">Automotive</option>
+                                        <option value="electronics">Electronics</option>
+                                        <option value="textiles">Textiles</option>
+                                        <option value="machinery">Machinery</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="incoterms" class="block text-gray-700 font-medium mb-2">Incoterms</label>
+                                    <select id="incoterms" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors">
+                                        <option value="">Select Incoterms</option>
+                                        <option value="exw">EXW - Ex Works</option>
+                                        <option value="fca">FCA - Free Carrier</option>
+                                        <option value="fob">FOB - Free on Board</option>
+                                        <option value="cif">CIF - Cost, Insurance and Freight</option>
+                                        <option value="ddp">DDP - Delivered Duty Paid</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cargo Specifications -->
+                        <div data-section="cargo-specs">
+                            <h3 class="text-xl font-heading font-semibold text-dark mb-4">Cargo Specifications</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <label for="weight" class="block text-gray-700 font-medium mb-2">Total Weight (kg) *</label>
+                                    <input type="number" id="weight" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="1000" required>
+                                </div>
+                                <div>
+                                    <label for="volume" class="block text-gray-700 font-medium mb-2">Volume (CBM)</label>
+                                    <input type="number" id="volume" step="0.1" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="10.5">
+                                </div>
+                                <div>
+                                    <label for="packages" class="block text-gray-700 font-medium mb-2">Number of Packages</label>
+                                    <input type="number" id="packages" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="50">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Services -->
+                        <div data-section="additional-services">
+                            <h3 class="text-xl font-heading font-semibold text-dark mb-4">Additional Services</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="additional-services" value="insurance" class="mr-3 text-primary">
+                                    <span>Cargo Insurance</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="additional-services" value="customs" class="mr-3 text-primary">
+                                    <span>Customs Clearance</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="additional-services" value="warehousing" class="mr-3 text-primary">
+                                    <span>Warehousing</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="additional-services" value="packaging" class="mr-3 text-primary">
+                                    <span>Packaging Services</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="additional-services" value="tracking" class="mr-3 text-primary">
+                                    <span>Premium Tracking</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="additional-services" value="delivery" class="mr-3 text-primary">
+                                    <span>Door-to-Door Delivery</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Special Requirements -->
+                        <div>
+                            <label for="special-requirements" class="block text-gray-700 font-medium mb-2">Special Requirements or Comments</label>
+                            <textarea id="special-requirements" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors" placeholder="Please describe any special handling requirements, temperature control needs, or other important details..."></textarea>
+                        </div>
+
+                        <!-- Terms and Submit -->
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-3">
+                                <input type="checkbox" id="terms" class="mt-1 w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary" required>
+                                <label for="terms" class="text-gray-600 text-sm">
+                                    I agree to the <a href="#" class="text-primary hover:underline">Terms of Service</a> and <a href="#" class="text-primary hover:underline">Privacy Policy</a>. I consent to being contacted by Cargo Express Logistics regarding this quote request.
+                                </label>
+                            </div>
+
+                            <div class="text-center pt-6">
+                                <button type="submit" class="bg-primary hover:bg-blue-700 text-white px-12 py-4 rounded-lg font-semibold text-lg transition-colors">
+                                    Request Quote
+                                </button>
+                                <p class="text-gray-500 text-sm mt-4">You'll receive your quote within 24 hours via email</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Our Quotes -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-heading font-bold text-dark mb-6">Why Choose Our Quote Service</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Transparent, competitive, and comprehensive pricing for all your logistics needs</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="ri-time-line text-primary text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold text-dark mb-4">Fast Response</h3>
+                    <p class="text-gray-600">Receive your detailed quote within 24 hours of submission</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="ri-money-dollar-circle-line text-primary text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold text-dark mb-4">Competitive Rates</h3>
+                    <p class="text-gray-600">Best-in-market pricing with no hidden fees or surprises</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="ri-file-text-line text-primary text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold text-dark mb-4">Detailed Breakdown</h3>
+                    <p class="text-gray-600">Comprehensive cost breakdown with all services included</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <i class="ri-customer-service-2-line text-primary text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-heading font-semibold text-dark mb-4">Expert Support</h3>
+                    <p class="text-gray-600">Dedicated logistics experts to discuss your requirements</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="ri-ship-line text-white text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-heading font-bold">Cargo Express</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Your trusted partner for global logistics solutions, connecting businesses worldwide.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-linkedin-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-twitter-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-heading font-semibold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="services.html" class="text-gray-400 hover:text-white transition-colors">Services</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-heading font-semibold mb-6">Services</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Sea Freight</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Air Freight</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Road Transport</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Warehousing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Customs Clearance</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-heading font-semibold mb-6">Contact Info</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <i class="ri-map-pin-line text-primary mt-1"></i>
+                            <div class="text-gray-400">
+                                <p>301/A Rajkamal Plaza</p>
+                                <p>Ahmedabad, Gujarat 380014</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="ri-phone-line text-primary"></i>
+                            <span class="text-gray-400">+91 79 2658 7890</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="ri-mail-line text-primary"></i>
+                            <span class="text-gray-400">info@cargoexpress.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0">&copy; 2025 Cargo Express Logistics. All rights reserved.</p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a>
+                        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="scripts/main.js"></script>
+    <script src="scripts/quote.js"></script>
+</body>
+</html>

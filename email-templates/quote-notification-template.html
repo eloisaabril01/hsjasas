@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Quote Request - Cargo Express Logistics</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #1e40af;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .quote-info {
+            background-color: #f8f9fa;
+            border-left: 4px solid #1e40af;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .quote-id {
+            background-color: #1e40af;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        .section h3 {
+            color: #1e40af;
+            border-bottom: 2px solid #1e40af;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        .detail-row {
+            display: flex;
+            margin-bottom: 8px;
+        }
+        .detail-label {
+            font-weight: bold;
+            width: 150px;
+            color: #333;
+        }
+        .detail-value {
+            color: #666;
+        }
+        .footer {
+            background-color: #1f2937;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .priority {
+            background-color: #fef3c7;
+            border: 1px solid #f59e0b;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .priority strong {
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🚢 New {{submission_type}} Received</h1>
+            <p>Cargo Express Logistics</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="priority">
+                <strong>⚡ Action Required:</strong> New quote request needs your attention
+            </div>
+
+            <div class="quote-id">
+                Quote ID: {{quote_id}}
+            </div>
+
+            <!-- Customer Information -->
+            <div class="section">
+                <h3>👤 Customer Information</h3>
+                <div class="detail-row">
+                    <span class="detail-label">Name:</span>
+                    <span class="detail-value">{{from_name}}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Email:</span>
+                    <span class="detail-value">{{from_email}}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Phone:</span>
+                    <span class="detail-value">{{phone}}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Company:</span>
+                    <span class="detail-value">{{company}}</span>
+                </div>
+            </div>
+
+            <!-- Service Details -->
+            <div class="section">
+                <h3>📦 Service Details</h3>
+                <div class="detail-row">
+                    <span class="detail-label">Service Type:</span>
+                    <span class="detail-value">{{service_type}}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Route:</span>
+                    <span class="detail-value">{{origin}} → {{destination}}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Cargo Type:</span>
+                    <span class="detail-value">{{cargo_type}}</span>
+                </div>
+            </div>
+
+            <!-- Cargo Specifications -->
+            <div class="section">
+                <h3>📊 Cargo Specifications</h3>
+                <div class="detail-row">
+                    <span class="detail-label">Weight:</span>
+                    <span class="detail-value">{{weight}} kg</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Volume:</span>
+                    <span class="detail-value">{{volume}} CBM</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Packages:</span>
+                    <span class="detail-value">{{packages}}</span>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="section">
+                <h3>⏰ Timeline</h3>
+                <div class="detail-row">
+                    <span class="detail-label">Ready Date:</span>
+                    <span class="detail-value">{{ready_date}}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Delivery Date:</span>
+                    <span class="detail-value">{{delivery_date}}</span>
+                </div>
+            </div>
+
+            <!-- Special Requirements -->
+            {{#if special_requirements}}
+            <div class="section">
+                <h3>⚠️ Special Requirements</h3>
+                <div class="quote-info">
+                    {{special_requirements}}
+                </div>
+            </div>
+            {{/if}}
+
+            <!-- Contact Form Message -->
+            {{#if message}}
+            <div class="section">
+                <h3>💬 Additional Message</h3>
+                <div class="quote-info">
+                    <strong>Subject:</strong> {{subject}}<br><br>
+                    <strong>Message:</strong><br>
+                    {{message}}
+                </div>
+            </div>
+            {{/if}}
+
+            <!-- Submission Details -->
+            <div class="section">
+                <h3>📅 Submission Details</h3>
+                <div class="detail-row">
+                    <span class="detail-label">Submitted:</span>
+                    <span class="detail-value">{{submission_date}}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Type:</span>
+                    <span class="detail-value">{{submission_type}}</span>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="https://your-admin-panel-url.com/admin.html" 
+                   style="background-color: #1e40af; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                    📊 Review in Admin Panel
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Cargo Express Logistics</strong></p>
+            <p>📍 301/A Rajkamal Plaza, Ahmedabad, Gujarat 380014</p>
+            <p>📞 +91 79 2658 7890 | ✉️ info@cargoexpress.com</p>
+            <p style="font-size: 12px; opacity: 0.8;">This is an automated notification from your website quote system.</p>
+        </div>
+    </div>
+</body>
+</html>
